@@ -1,6 +1,9 @@
 #ifndef VULNCHECK_H
 #define VULNCHECK_H
 #include <stdio.h>
+#include <time.h>
+#include "output.h"
+
 struct TemplatePacket;
 
 struct MassVulnCheck
@@ -50,4 +53,31 @@ struct MassVulnCheck
 struct MassVulnCheck *
 vulncheck_lookup(const char *name);
 
+/**
+ * The function which will be invoked before printing the banner. Should
+ * return not 0 to print grabbed banner.
+ */
+typedef unsigned int (BANNER_CHECKER_FUNC)(
+        unsigned proto,
+        const unsigned char *banner, unsigned length);
+typedef BANNER_CHECKER_FUNC* BANNER_CHECKER;
+
+/**
+ * Invokes @check_func before to decide whether the grabbed info should be
+ * sent to @output.
+ * @param check_func
+ *      Called on the banner content to check whether banner contains
+ *      vulnerability flag.
+ * @param @output_func
+ *      Original output fucnction being wrapped.
+ *
+ */
+OUTPUT_REPORT_BANNER checked_output_report_banner(
+        BANNER_CHECKER check_func,
+        OUTPUT_REPORT_BANNER output_func);
+
+/**
+ * List of defined checkers
+ */
+extern BANNER_CHECKER_FUNC check_netscaller_fixed_cert;
 #endif

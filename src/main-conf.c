@@ -2108,6 +2108,12 @@ masscan_set_parameter(struct Masscan *masscan,
             masscan_set_parameter(masscan, "no-capture", "cert");
             masscan_set_parameter(masscan, "banners", "true");
             return;
+        } else if (EQUALS("netscaller", value)) {
+            masscan->is_vuln_netscaller = 1;
+            masscan_set_parameter(masscan, "hello", "ssl");
+            masscan_set_parameter(masscan, "capture", "cert");
+            masscan_set_parameter(masscan, "banners", "true");
+            return;
         }
         
         if (!vulncheck_lookup(value)) {

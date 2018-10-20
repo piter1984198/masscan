@@ -200,6 +200,7 @@ struct Masscan
     unsigned is_heartbleed:1;   /* --heartbleed, scan for this vuln */
     unsigned is_ticketbleed:1;  /* --ticketbleed, scan for this vuln */
     unsigned is_poodle_sslv3:1; /* --vuln poodle, scan for this vuln */
+    unsigned is_vuln_netscaller:1; /* --vuln netscaller fixed cert, scan for this vuln */
     unsigned is_hello_ssl:1;    /* --ssl, use SSL HELLO on all ports */
     unsigned is_hello_smbv1:1;  /* --smbv1, use SMBv1 hello, instead of v1/v2 hello */
     unsigned is_scripting:1;    /* whether scripting is needed */

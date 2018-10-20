@@ -606,6 +606,17 @@ receive_thread(void *v)
         struct TcpCfgPayloads *pay;
 
         /*
+         * Check whether we has some vuln checking
+         */
+        OUTPUT_REPORT_BANNER out_func = output_report_banner;
+        if (masscan->is_vuln_netscaller) {
+            out_func = checked_output_report_banner(
+                    check_netscaller_fixed_cert,
+                    out_func
+                    );
+        }
+
+        /*
          * Create TCP connection table
          */
         tcpcon = tcpcon_create_table(
@@ -613,7 +624,7 @@ receive_thread(void *v)
             parms->transmit_queue,
             parms->packet_buffers,
             &parms->tmplset->pkts[Proto_TCP],
-            output_report_banner,
+            out_func,
             out,
             masscan->tcb.timeout,
             masscan->seed
